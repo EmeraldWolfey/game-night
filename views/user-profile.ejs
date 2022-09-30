@@ -1,0 +1,29 @@
+<%- include('partials/header') -%>
+<div class="container">
+  <div class="row mt-5 justify-content-center">
+      <div class="col-8">
+        <p><strong>User Name</strong>: <%= posts[0].user_docs[0].userName %></p>
+        <form
+        class="col-1"
+        action="/addfriend/<%= posts[0].user %>?_method=PUT"
+        method="POST"
+      >
+        <button class="btn btn-primary fa fa-user-plus" type="submit"></button>
+      </form>
+        <ul class="row list-unstyled">
+        <% for(var i=0; i<posts.length; i++) {%>
+          <li class="col-6 justify-content-between mt-5">
+            <a href="/post/<%= posts[i]._id%>">
+              <img class="img-fluid" src="<%= posts[i].image%>">
+            </a>
+          </li>
+        <% } %>
+        </ul>
+        <div class="row justify-content-center mt-5">
+          <a class="btn btn-primary" href="/feed">Return to Feed</a>
+        </div>  
+      </div>  
+    </div>
+  </div>
+</div>
+<%- include('partials/footer') -%>

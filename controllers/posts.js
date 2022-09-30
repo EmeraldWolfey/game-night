@@ -6,16 +6,48 @@ module.exports = {
   getProfile: async (req, res) => {
     try {
       const posts = await Post.find({ user: req.user.id });
+
       res.render("profile.ejs", { posts: posts, user: req.user });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  getUserProfile: async (req, res) => {
+    try {
+      const posts = await Post.aggregate([
+        
+        {
+          $lookup:
+          {
+            from: 'users',
+            localField:'user',
+            foreignField: '_id',
+            as: 'user_docs',
+
+          }
+        }
+      ]);
+      const filteredPosts = posts.filter(doc => String(doc.user) == req.params.id)
+      console.log(filteredPosts)
+      res.render("user-profile.ejs", { posts: filteredPosts, user: req.params.id });
     } catch (err) {
       console.log(err);
     }
   },
   getFeed: async (req, res) => {
     try {
-      const posts = await Post.find().sort({ createdAt: "desc" }).lean();
-      const users = await User.find();
-      res.render("feed.ejs", { posts: posts, users: users });
+      const posts = await Post.aggregate([
+        {
+          $lookup:
+          {
+            from: 'users',
+            localField:'user',
+            foreignField: '_id',
+            as: 'user_docs',
+          }
+        }]);
+    //need to re-order these posts
+      res.render("feed.ejs", { posts: posts});
     } catch (err) {
       console.log(err);
     }
@@ -24,14 +56,6 @@ module.exports = {
     try {
       const post = await Post.findById(req.params.id);
       res.render("post.ejs", { post: post, user: req.user });
-    } catch (err) {
-      console.log(err);
-    }
-  },
-  getUserProfile: async (req, res) => {
-    try {
-      const posts = await Post.find({ user: req.params.id });
-      res.render("profile.ejs", { posts: posts, user: req.params.id });
     } catch (err) {
       console.log(err);
     }
