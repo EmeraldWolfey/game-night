@@ -28,7 +28,6 @@ module.exports = {
         }
       ]);
       const filteredPosts = posts.filter(doc => String(doc.user) == req.params.id)
-      console.log(filteredPosts)
       res.render("user-profile.ejs", { posts: filteredPosts, user: req.params.id });
     } catch (err) {
       console.log(err);
@@ -45,7 +44,7 @@ module.exports = {
             foreignField: '_id',
             as: 'user_docs',
           }
-        }]);
+        }]).sort( { createdAt: -1 } ); // This might work!
     //need to re-order these posts
       res.render("feed.ejs", { posts: posts});
     } catch (err) {
