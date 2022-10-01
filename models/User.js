@@ -4,7 +4,21 @@ const mongoose = require("mongoose");
 const UserSchema = new mongoose.Schema({
   userName: { type: String, unique: true },
   email: { type: String, unique: true },
-  friends: {type: Array, default: []},
+  friends:  [
+    {
+      friendId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+       },
+       friendStatus: Number,
+       enums: [
+         0,    //'add friend',
+         1,    //'requested',
+         2,    //'pending',
+         3,    //'friends'
+       ]
+    }
+ ],
   password: String,
 });
 

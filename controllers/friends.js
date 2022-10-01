@@ -4,8 +4,8 @@ const User = require("../models/User");
 module.exports = {
     addFriend: async (req, res) => {
       try {
-        await User.updateMany(
-          { _id: req.params.id, _id: req.user.id},
+        await User.findOneAndUpdate(
+          {_id: req.user.id},
           {
             $push: { friends:{friendId: req.params.id, friendStatus: 1} 
             },
