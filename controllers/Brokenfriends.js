@@ -35,32 +35,32 @@ module.exports = {
   addFriend: async (req, res) => {
       try {
       
-        // const senderDoc = await Friend.findOneAndUpdate(
-        //   {requester: req.user.id, recipient: req.params.id},
-        //   {$set: {status: 1}},
-        //   {upsert: true, new: true}
+        const senderDoc = await Friend.findOneAndUpdate(
+          {requester: req.user.id, recipient: req.params.id},
+          {$set: {status: 1}},
+          {upsert: true, new: true}
+        )
+
+
+        // await User.findOneAndUpdate(
+        //   {_id: req.user.id},
+        //   {$push: {friends: {
+        //     user: req.params.id,
+        //     status: 1
+        //   }}}
+        // )
+        // await User.findOneAndUpdate(
+        //   {_id: req.params.id},
+        //   {$push: {friends: {
+        //     user: req.user.id,
+        //     status: 2
+        //   }}}
         // )
 
-        // const receiverDoc = await Friend.findOneAndUpdate(
-        //   {requester: req.params.id, recipient: req.user.id},
-        //   {$set: {status: 2}},
-        //   {upsert: true, new: true}
+        // const updateSender = await User.findOneAndUpdate(
+        //   {_id: req.user.id},
+        //   {$push: senderDoc._id}
         // )
-
-        await User.findOneAndUpdate(
-          {_id: req.user.id},
-          {$push: {friends: {
-            user: req.params.id,
-            status: 1
-          }}}
-        )
-        await User.findOneAndUpdate(
-          {_id: req.params.id},
-          {$push: {friends: {
-            user: req.user.id,
-            status: 2
-          }}}
-        )
 
         // const updateReceiver = await User.findOneAndUpdate(
         //   {_id: req.params.id},

@@ -5,7 +5,7 @@
         <p><strong>User Name</strong>: <%= posts[0].user_docs[0].userName %></p>
         <form
         class="col-1"
-        action="/addfriend/<%= posts[0].user %>?_method=PUT"
+        action="/friends/addfriend/<%= posts[0].user %>"
         method="POST"
       >
         <button class="btn btn-primary fa fa-user-plus" type="submit"></button>
