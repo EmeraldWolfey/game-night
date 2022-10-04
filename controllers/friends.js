@@ -33,6 +33,8 @@ module.exports = {
   
   addFriend: async (req, res) => {
       try {
+       const friendError = [];
+       const friendAdded = [];
         const checkOne = await Friend.find({
             requester: req.user.id, 
             recipient: req.params.id,
@@ -42,16 +44,18 @@ module.exports = {
             recipient: req.user.id,
         })
         if(checkOne.length || checkTwo.length){
+            friendError.push({ msg: "Record already exists." });
+            req.flash("errors", friendError);
             throw 'Record already exists'
         } // add alert for user feedback
-        
-
 
         await Friend.create({
           requester: req.user.id, 
           recipient: req.params.id,
           status: 1,
         });
+        friendAdded.push({ msg: "Success! You are now friends!" });
+        req.flash("success", friendAdded);
 
         console.log("friend requested ");
       } catch (err) {

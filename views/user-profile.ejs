@@ -10,6 +10,17 @@
       >
         <button class="btn btn-primary fa fa-user-plus" type="submit"></button>
       </form>
+
+      <% if (locals.messages.errors) { %> <% messages.errors.forEach( el => { %>
+        <div class="alert alert-danger"><%= el.msg %></div>
+        <% }) %> <% } %> 
+
+        <% if (locals.messages.success) { %> <% messages.success.forEach( el => { %>
+          <div class="alert alert-success"><%= el.msg %></div>
+          <% }) %> <% } %> 
+        
+       
+
         <ul class="row list-unstyled">
         <% for(var i=0; i<posts.length; i++) {%>
           <li class="col-6 justify-content-between mt-5">
